@@ -1,9 +1,9 @@
-import Image from "next/image";
+import { DataTable } from "@/components";
 
 export default function Home() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div className="flex justify-center mt-32">
+      <DataTable />
+    </div>
   );
 }
