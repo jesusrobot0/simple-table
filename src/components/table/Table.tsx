@@ -1,4 +1,6 @@
 "use client";
+
+import { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -42,11 +44,16 @@ const columns: ColumnDef<User>[] = [
 ];
 
 export function DataTable() {
+  const [sorting, setSorting] = useState<any>({ sorting: [] });
+
   const table = useReactTable({
     data: users,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getCoreRowModel(),
+    state: { sorting },
+    onSortingChange: setSorting,
   });
 
   const handlePrevious = () => {
