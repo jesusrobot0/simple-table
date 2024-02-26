@@ -14,7 +14,6 @@ import dayjs from "dayjs";
 import { User } from "@/interfaces";
 
 const users: User[] = data;
-
 const columns: ColumnDef<User>[] = [
   {
     header: "Id",
@@ -64,7 +63,7 @@ export function DataTable() {
   };
 
   return (
-    <div className="mb-32 flex flex-col">
+    <div className="mb-44 flex flex-col">
       <table className="w-[1000px]">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
