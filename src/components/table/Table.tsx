@@ -6,13 +6,16 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
+  ChevronDown,
   ChevronFirst,
   ChevronLast,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
 } from "lucide-react";
 import users from "@/data/MOCK_DATA.json";
 import dayjs from "dayjs";
@@ -59,7 +62,7 @@ const columns: ColumnDef<User>[] = [
 ];
 
 export function DataTable() {
-  const [sorting, setSorting] = useState<any>({ sorting: [] });
+  const [sorting, setSorting] = useState<any>([]);
 
   // Configuración de la tabla
   const table = useReactTable({
@@ -67,7 +70,7 @@ export function DataTable() {
     columns, // Nombre de las columnas (HEADINGS)
     getCoreRowModel: getCoreRowModel(), // Caracteristicas basicas para mostrar la tabla
     getPaginationRowModel: getPaginationRowModel(), // Habilitar la paginación
-    getSortedRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(), // Habilitar la ordenación de los datos de la tabla
     state: { sorting },
     onSortingChange: setSorting,
   });
@@ -98,12 +101,22 @@ export function DataTable() {
             <tr key={headerGroup.id} className="text-[#8c8c8d] bg-[#f3f4f6]">
               {/* Construimos los HEADINGS  */}
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-4 text-left font-normal">
-                  {flexRender(
-                    // Por defecto lo de abajo 👇 devuelve un obj, es necesario esta funcion para renderizarlo como html
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
+                <th
+                  key={header.id}
+                  className="p-4 text-left font-normal"
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  <div className="flex gap-2">
+                    {flexRender(
+                      // Por defecto lo de abajo 👇 devuelve un obj, es necesario esta funcion para renderizarlo como html
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {{
+                      asc: <ChevronUp />,
+                      desc: <ChevronDown />,
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                 </th>
               ))}
             </tr>
