@@ -8,6 +8,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 import {
   ChevronDown,
@@ -63,6 +64,7 @@ const columns: ColumnDef<User>[] = [
 
 export function DataTable() {
   const [sorting, setSorting] = useState<any>([]);
+  const [filtering, setFiltering] = useState<any>(""); // Aqui se almacenan los querys del usuario
 
   // Configuración de la tabla
   const table = useReactTable({
@@ -71,13 +73,15 @@ export function DataTable() {
     getCoreRowModel: getCoreRowModel(), // Caracteristicas basicas para mostrar la tabla
     getPaginationRowModel: getPaginationRowModel(), // Habilitar la paginación
     getSortedRowModel: getSortedRowModel(), // Habilitar la ordenación de los datos de la tabla
-    state: { sorting },
+    getFilteredRowModel: getFilteredRowModel(),
+    state: { sorting, globalFilter: filtering },
     onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
   });
 
   // Meéodos de la paginación
   const handleFirstPage = () => {
-    table.setPageIndex(1);
+    table.setPageIndex(0);
   };
 
   const handlePrevious = () => {
@@ -94,6 +98,16 @@ export function DataTable() {
 
   return (
     <div className="mb-44 flex flex-col">
+      <div className="flex justify-between mb-6">
+        <h1 className="text-3xl font-bold">Users</h1>
+        <input
+          type="text"
+          className="px-2 border border-gray-600"
+          placeholder="🔎 Search"
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
+        />
+      </div>
       <table className="w-[1000px]">
         <thead>
           {/* CONSTRUIMOS EL HEADER DE LA TABLA */}
