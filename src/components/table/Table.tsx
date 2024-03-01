@@ -73,7 +73,7 @@ export function DataTable() {
     getCoreRowModel: getCoreRowModel(), // Caracteristicas basicas para mostrar la tabla
     getPaginationRowModel: getPaginationRowModel(), // Habilitar la paginación
     getSortedRowModel: getSortedRowModel(), // Habilitar la ordenación de los datos de la tabla
-    getFilteredRowModel: getFilteredRowModel(),
+    getFilteredRowModel: getFilteredRowModel(), // Habilitar el filtrado de datos
     state: { sorting, globalFilter: filtering },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
